@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -64,10 +65,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 					event.coords.run{
 						Log.i("FFF", "${this[0].lat}, ${this[0].lon}")
 					}
+					
+					binding.loadingSpinner.isVisible = false
 				}
 				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent ->
 				{
-//					binding.ProgressBar.isVisible = true
+					binding.loadingSpinner.isVisible = true
 				}
 				
 				else                                                     ->
