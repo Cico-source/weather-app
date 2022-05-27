@@ -3,26 +3,59 @@ package com.example.weatherapp.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.remote.api.OpenWeatherApi
+import com.example.weatherapp.data.remote.responses.CityCoordinatesResponse
+import com.example.weatherapp.repository.OpenWeatherRepository
 import com.example.weatherapp.util.DispatcherProvider
+import com.example.weatherapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
-	private val openWeatherApi: OpenWeatherApi,
+	private val repository: OpenWeatherRepository,
 	private val dispatchers: DispatcherProvider
 ): ViewModel()
 {
-	fun dummyApiCall()
+	
+	sealed class SetupEvent
 	{
-		viewModelScope.launch(dispatchers.io) {
+		data class GetCityCoordsEvent(val coords: List<CityCoordinatesResponse>) : SetupEvent()
+		data class GetCityCoordsErrorEvent(val error: String) : SetupEvent()
+		
+		object MainScreenLoadingEvent : SetupEvent()
+		object MainScreenEmptyEvent : SetupEvent()
+		
+//		data class JoinRoomEvent(val roomName: String) : SetupEvent()
+//		data class JoinRoomErrorEvent(val error: String) : SetupEvent()
+	}
+	
+	private val _setupEvent = MutableSharedFlow<SetupEvent>()
+	val setupEvent: SharedFlow<SetupEvent> = _setupEvent
+	
+	private val _screen = MutableStateFlow<SetupEvent>(SetupEvent.MainScreenEmptyEvent)
+	val screen: StateFlow<SetupEvent> = _screen
+	
+	fun getCoordinatesForCity(city: String)
+	{
+		_screen.value = SetupEvent.MainScreenLoadingEvent
+		viewModelScope.launch(dispatchers.main) {
 			
-			val response = openWeatherApi.getCoordinatesByZipAndCountryCode("E14,GB")
-			val (lat, lon) = response.body()!!
+			val result = repository.getCoordinatesForCity(city)
 			
-			Log.i("FFF", "$lat, $lon")
+			if (result is Resource.Success)
+			{
+				_screen.value = SetupEvent.GetCityCoordsEvent(result.data ?: return@launch)
+			}
+			else
+			{
+				_setupEvent.emit(SetupEvent.GetCityCoordsErrorEvent(result.message ?: return@launch))
+			}
 		}
 	}
+	
 }
