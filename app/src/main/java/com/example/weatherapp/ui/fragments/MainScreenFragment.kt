@@ -42,6 +42,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 			{
 				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
+					binding.loadingSpinner.isVisible = false
 					snackbar(event.error)
 				}
 				else                                                              ->
@@ -58,11 +59,19 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 			{
 				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
 				{
-					event.weatherDetails.run{
-						Log.i("FFF", "${this.current.temp}")
+					event.weatherDetails.run {
+						binding.apply {
+							cityTextView.text = event.city
+							humidityTextView.text = getString(R.string.humidity_value, daily[0].humidity, "%")
+							cloudsTextView.text = getString(R.string.clouds_value, daily[0].clouds, "%")
+							tempTextView.text = getString(R.string.temp_value, current.temp, "°C")
+							minTextView.text = getString(R.string.min_value, daily[0].temp.min, "°C")
+							maxTextView.text = getString(R.string.max_value, daily[0].temp.max, "°C")
+						}
 					}
 					
 					binding.loadingSpinner.isVisible = false
+					binding.card.isVisible = true
 				}
 				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{

@@ -23,7 +23,7 @@ class MainScreenViewModel @Inject constructor(
 	
 	sealed class SetupEvent
 	{
-		data class GetCityWeatherDetailsEvent(val weatherDetails: WeatherDetailsResponse) : SetupEvent()
+		data class GetCityWeatherDetailsEvent(val weatherDetails: WeatherDetailsResponse, val city:String) : SetupEvent()
 		data class GetCityWeatherDetailsErrorEvent(val error: String) : SetupEvent()
 		
 		object MainScreenLoadingEvent : SetupEvent()
@@ -50,7 +50,7 @@ class MainScreenViewModel @Inject constructor(
 				
 				if (cityWeatherDetails is Resource.Success)
 				{
-					_screen.value = SetupEvent.GetCityWeatherDetailsEvent(cityWeatherDetails.data ?: return@launch)
+					_screen.value = SetupEvent.GetCityWeatherDetailsEvent(cityWeatherDetails.data ?: return@launch, city)
 				}
 				else
 				{
