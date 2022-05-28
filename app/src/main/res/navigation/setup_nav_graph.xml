@@ -21,5 +21,14 @@
         android:id="@+id/mainScreenFragment"
         android:name="com.example.weatherapp.ui.fragments.MainScreenFragment"
         android:label="fragment_main_screen"
-        tools:layout="@layout/fragment_main_screen" />
+        tools:layout="@layout/fragment_main_screen" >
+        <action
+            android:id="@+id/action_mainScreenFragment_to_searchScreenFragment"
+            app:destination="@id/searchScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchScreenFragment"
+        android:name="com.example.weatherapp.ui.fragments.SearchScreenFragment"
+        android:label="fragment_search_screen"
+        tools:layout="@layout/fragment_search_screen" />
 </navigation>

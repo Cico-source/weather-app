@@ -42,7 +42,7 @@
         app:cardCornerRadius="20dp"
         app:cardElevation="20dp"
         app:contentPadding="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnForecast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -228,12 +228,13 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnForecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="39dp"
         android:text="Forecast"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnChangeCity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -241,16 +242,17 @@
         app:layout_constraintVertical_weight="1" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnChangeCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="39dp"
         android:text="Change city"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/btnForecast"
         app:layout_constraintVertical_weight="1" />
 
 

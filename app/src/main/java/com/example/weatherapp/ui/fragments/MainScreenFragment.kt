@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMainScreenBinding
 import com.example.weatherapp.ui.viewmodels.MainScreenViewModel
@@ -31,6 +32,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		listenToEvents()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+		
+		binding.btnChangeCity.setOnClickListener {
+			
+			findNavController().navigate(R.id.action_mainScreenFragment_to_searchScreenFragment)
+		}
 		
 	}
 	
@@ -71,6 +77,8 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 					
 					binding.loadingSpinner.isVisible = false
 					binding.card.isVisible = true
+					binding.btnForecast.isVisible = true
+					binding.btnChangeCity.isVisible = true
 				}
 				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{
