@@ -3,19 +3,15 @@ package com.example.weatherapp.ui.fragments
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMainScreenBinding
 import com.example.weatherapp.ui.viewmodels.MainScreenViewModel
 import com.example.weatherapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
@@ -35,7 +31,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		subscribeToObservers()
 		listenToEvents()
 		
-		viewModel.getCoordinatesForCity("City of Zagreb")
+		viewModel.getWeatherDetailsForCity("City of Zagreb")
 		
 	}
 	
@@ -44,11 +40,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		viewModel.setupEvent.collect { event ->
 			when (event)
 			{
-				is MainScreenViewModel.SetupEvent.GetCityCoordsErrorEvent ->
+				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
 					snackbar(event.error)
 				}
-				else                                                      ->
+				else                                                              ->
 				{
 					Unit
 				}
@@ -60,15 +56,15 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		viewModel.screen.collect { event ->
 			when (event)
 			{
-				is MainScreenViewModel.SetupEvent.GetCityCoordsEvent     ->
+				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
 				{
-					event.coords.run{
-						Log.i("FFF", "${this[0].lat}, ${this[0].lon}")
+					event.weatherDetails.run{
+						Log.i("FFF", "${this.current.temp}")
 					}
 					
 					binding.loadingSpinner.isVisible = false
 				}
-				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent ->
+				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{
 					binding.loadingSpinner.isVisible = true
 				}
