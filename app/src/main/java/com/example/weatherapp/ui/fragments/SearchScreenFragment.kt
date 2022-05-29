@@ -9,11 +9,16 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.DialogSearchableSpinnerBinding
 import com.example.weatherapp.databinding.FragmentSearchScreenBinding
+import com.example.weatherapp.ui.viewmodels.MainSearchScreenViewModel
 import com.example.weatherapp.util.Constants
+import com.example.weatherapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,6 +37,7 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 	
 	private lateinit var dialog: Dialog
 	
+	private val viewModel: MainSearchScreenViewModel by viewModels()
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
@@ -39,6 +45,9 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 		
 		_binding = FragmentSearchScreenBinding.bind(view)
 		_dialogBinding = DialogSearchableSpinnerBinding.inflate(layoutInflater, requireView().parent as ViewGroup, false)
+		
+		subscribeToObservers()
+		listenToEvents()
 		
 		val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, Constants.cities.keys.toList())
 		
@@ -76,12 +85,68 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 			
 			dialogBinding.listView.setOnItemClickListener { _, _, position, _ ->
 				
-				binding.searchTextView.text = adapter.getItem(position)
+				val selectedCity = adapter.getItem(position)!!
+				
+				binding.searchTextView.text = selectedCity
 				
 				dialog.dismiss()
+				
+				viewModel.getWeatherDetailsForCity(selectedCity)
 			}
 		}
 		
+	}
+	
+	private fun listenToEvents() = lifecycleScope.launchWhenStarted {
+		
+		viewModel.setupEvent.collect { event ->
+			when (event)
+			{
+				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
+				{
+					binding.loadingSpinner.visibility = View.GONE
+					snackbar(event.error)
+				}
+				else                                                                    ->
+				{
+					Unit
+				}
+			}
+		}
+	}
+	
+	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
+		viewModel.screen.collect { event ->
+			when (event)
+			{
+				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
+				{
+					event.weatherDetails.run {
+						binding.apply {
+							cityTextView.text = event.city
+							humidityTextView.text = getString(R.string.humidity_value, daily[0].humidity, "%")
+							cloudsTextView.text = getString(R.string.clouds_value, daily[0].clouds, "%")
+							tempTextView.text = getString(R.string.temp_value, current.temp, "°C")
+							minTextView.text = getString(R.string.min_value, daily[0].temp.min, "°C")
+							maxTextView.text = getString(R.string.max_value, daily[0].temp.max, "°C")
+						}
+					}
+					
+					binding.loadingSpinner.visibility = View.GONE
+					binding.card.isVisible = true
+				}
+				is MainSearchScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
+				{
+					binding.card.visibility = View.GONE
+					binding.loadingSpinner.isVisible = true
+				}
+				
+				else                                                         ->
+				{
+					Unit
+				}
+			}
+		}
 	}
 	
 	override fun onDestroy()

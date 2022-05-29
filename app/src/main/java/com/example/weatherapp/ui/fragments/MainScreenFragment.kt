@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMainScreenBinding
-import com.example.weatherapp.ui.viewmodels.MainScreenViewModel
+import com.example.weatherapp.ui.viewmodels.MainSearchScreenViewModel
 import com.example.weatherapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +21,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 	private val binding: FragmentMainScreenBinding
 		get() = _binding!!
 	
-	private val viewModel: MainScreenViewModel by viewModels()
+	private val viewModel: MainSearchScreenViewModel by viewModels()
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
@@ -45,12 +45,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		viewModel.setupEvent.collect { event ->
 			when (event)
 			{
-				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
+				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
 					binding.loadingSpinner.isVisible = false
 					snackbar(event.error)
 				}
-				else                                                              ->
+				else                                                                    ->
 				{
 					Unit
 				}
@@ -62,7 +62,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		viewModel.screen.collect { event ->
 			when (event)
 			{
-				is MainScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
+				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
 				{
 					event.weatherDetails.run {
 						binding.apply {
@@ -80,7 +80,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 					binding.btnForecast.isVisible = true
 					binding.btnChangeCity.isVisible = true
 				}
-				is MainScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
+				is MainSearchScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{
 					binding.loadingSpinner.isVisible = true
 				}

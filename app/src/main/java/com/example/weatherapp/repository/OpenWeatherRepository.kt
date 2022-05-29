@@ -6,7 +6,7 @@ import com.example.weatherapp.util.Resource
 
 interface OpenWeatherRepository
 {
-	suspend fun getCoordinatesForCity(city: String): Resource<List<CityCoordinatesResponse>>
+	suspend fun getCoordinatesForCity(city: String, limit: Int = 5): Resource<List<CityCoordinatesResponse>>
 	
 	suspend fun getWeatherDetailsByCityCoords(lat: String, lon: String, units: String = "metric"):
 			Resource<WeatherDetailsResponse>

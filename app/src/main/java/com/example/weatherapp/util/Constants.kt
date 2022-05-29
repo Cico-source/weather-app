@@ -51,6 +51,6 @@ object Constants
 		"Vienna" to "AT",
 		"Vilnius" to "LT",
 		"Warsaw" to "PL",
-		"Zagreb" to "HR"
+		"City of Zagreb" to "HR"
 	)
 }
