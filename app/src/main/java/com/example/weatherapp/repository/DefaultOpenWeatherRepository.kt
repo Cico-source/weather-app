@@ -15,10 +15,10 @@ import javax.inject.Inject
 class DefaultOpenWeatherRepository @Inject constructor(
 	private val openWeatherApi: OpenWeatherApi,
 	private val context: Context
-	
-):OpenWeatherRepository
+
+) : OpenWeatherRepository
 {
-	override suspend fun getCoordinatesForCity(city: String): Resource<List<CityCoordinatesResponse>>
+	override suspend fun getCoordinatesForCity(city: String, limit: Int): Resource<List<CityCoordinatesResponse>>
 	{
 		if (!context.checkForInternetConnection())
 		{

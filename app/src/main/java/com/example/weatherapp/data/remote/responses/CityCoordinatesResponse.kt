@@ -8,4 +8,6 @@ data class CityCoordinatesResponse(
     val lat: Double,
     @SerializedName("lon")
     val lon: Double,
+    @SerializedName("country")
+    var country: String
 )

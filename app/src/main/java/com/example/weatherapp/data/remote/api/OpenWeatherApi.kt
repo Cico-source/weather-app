@@ -10,7 +10,8 @@ interface OpenWeatherApi
 {
 	@GET("geo/1.0/direct")
 	suspend fun getCoordinatesForCity(
-		@Query("q") city: String
+		@Query("q") city: String,
+		@Query("limit") limit: Int = 5
 	
 	): Response<List<CityCoordinatesResponse>>
 	
