@@ -25,86 +25,87 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 {
-	
+
 	private var _binding: FragmentSearchScreenBinding? = null
 	private val binding: FragmentSearchScreenBinding
 		get() = _binding!!
-	
+
 	private var _dialogBinding: DialogSearchableSpinnerBinding? = null
 	private val dialogBinding: DialogSearchableSpinnerBinding
 		get() = _dialogBinding!!
-	
-	
+
+
 	private lateinit var dialog: Dialog
-	
+
 	private val viewModel: MainSearchScreenViewModel by viewModels()
-	
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
 		super.onViewCreated(view, savedInstanceState)
-		
+
 		_binding = FragmentSearchScreenBinding.bind(view)
 		_dialogBinding = DialogSearchableSpinnerBinding.inflate(layoutInflater, requireView().parent as ViewGroup, false)
-		
+
 		subscribeToObservers()
 		listenToEvents()
-		
+
 		val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_list_item_1, Constants.cities.keys.toList())
-		
+
 		binding.searchTextView.setOnClickListener {
-			
+
 			if (dialogBinding.root.parent == null)
 			{
 				dialog = Dialog(requireActivity())
 				dialog.setContentView(dialogBinding.root)
 			}
-			
+
 			dialog.window?.setLayout(800, 900)
 			dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 			dialog.show()
-			
+
 			dialogBinding.listView.adapter = adapter
-			
+
 			dialogBinding.inputCityEditText.addTextChangedListener(object : TextWatcher
 			{
 				override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)
 				{
-				
+
 				}
-				
+
 				override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
 				{
 					adapter.filter.filter(s)
 				}
-				
+
 				override fun afterTextChanged(s: Editable?)
 				{
-				
+
 				}
 			})
-			
+
 			dialogBinding.listView.setOnItemClickListener { _, _, position, _ ->
 				
 				val selectedCity = adapter.getItem(position)!!
-				
+
 				binding.searchTextView.text = selectedCity
-				
+
 				dialog.dismiss()
 				
 				viewModel.getWeatherDetailsForCity(selectedCity)
+				
 			}
 		}
-		
+
 	}
-	
+
 	private fun listenToEvents() = lifecycleScope.launchWhenStarted {
-		
+
 		viewModel.setupEvent.collect { event ->
 			when (event)
 			{
 				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
-					binding.loadingSpinner.visibility = View.GONE
+					binding.loadingSpinner.isVisible = false
 					snackbar(event.error)
 				}
 				else                                                                    ->
@@ -114,7 +115,7 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 			}
 		}
 	}
-	
+
 	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
 		viewModel.screen.collect { event ->
 			when (event)
@@ -131,16 +132,16 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 							maxTextView.text = getString(R.string.max_value, daily[0].temp.max, "°C")
 						}
 					}
-					
-					binding.loadingSpinner.visibility = View.GONE
+
+					binding.loadingSpinner.isVisible = false
 					binding.card.isVisible = true
 				}
 				is MainSearchScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{
-					binding.card.visibility = View.GONE
+					binding.card.isVisible = false
 					binding.loadingSpinner.isVisible = true
 				}
-				
+
 				else                                                         ->
 				{
 					Unit
@@ -148,7 +149,7 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 			}
 		}
 	}
-	
+
 	override fun onDestroy()
 	{
 		super.onDestroy()

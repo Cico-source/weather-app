@@ -8,6 +8,7 @@ import com.example.weatherapp.util.Constants
 import com.example.weatherapp.util.DispatcherProvider
 import com.example.weatherapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,7 +25,7 @@ class MainSearchScreenViewModel @Inject constructor(
 	
 	sealed class SetupEvent
 	{
-		data class GetCityWeatherDetailsEvent(val weatherDetails: WeatherDetailsResponse, val city:String) : SetupEvent()
+		data class GetCityWeatherDetailsEvent(val weatherDetails: WeatherDetailsResponse, val city: String) : SetupEvent()
 		data class GetCityWeatherDetailsErrorEvent(val error: String) : SetupEvent()
 		
 		object MainScreenLoadingEvent : SetupEvent()
@@ -40,26 +41,36 @@ class MainSearchScreenViewModel @Inject constructor(
 	fun getWeatherDetailsForCity(city: String)
 	{
 		_screen.value = SetupEvent.MainScreenLoadingEvent
+		
 		viewModelScope.launch(dispatchers.main) {
 			
-			repository.getCoordinatesForCity(city).data!!.run {
-				
-				val (lat, lon) = this.find {
+			val cityCoords = repository.getCoordinatesForCity(city)
+			
+			val (lat, lon) = if (cityCoords is Resource.Success)
+			{
+				cityCoords.data!!.find {
 					it.country == Constants.cities[city]
 				}!!
-				
-				val cityWeatherDetails = repository.getWeatherDetailsByCityCoords(lat.toString(), lon.toString())
-				
-				if (cityWeatherDetails is Resource.Success)
-				{
-					_screen.value = SetupEvent.GetCityWeatherDetailsEvent(cityWeatherDetails.data ?: return@launch, city)
-				}
-				else
-				{
-					_setupEvent.emit(SetupEvent.GetCityWeatherDetailsErrorEvent(cityWeatherDetails.message ?: return@launch))
-				}
 			}
+			else
+			{
+				_screen.emit(SetupEvent.MainScreenEmptyEvent)
+				_setupEvent.emit(SetupEvent.GetCityWeatherDetailsErrorEvent(cityCoords.message ?: return@launch))
+				return@launch
+			}
+			
+			val cityWeatherDetails = repository.getWeatherDetailsByCityCoords(lat.toString(), lon.toString())
+			
+			if (cityWeatherDetails is Resource.Success)
+			{
+				_screen.value = SetupEvent.GetCityWeatherDetailsEvent(cityWeatherDetails.data ?: return@launch, city)
+			}
+			else
+			{
+				_screen.emit(SetupEvent.MainScreenEmptyEvent)
+				_setupEvent.emit(SetupEvent.GetCityWeatherDetailsErrorEvent(cityWeatherDetails.message ?: return@launch))
+			}
+			
 		}
 	}
-	
 }

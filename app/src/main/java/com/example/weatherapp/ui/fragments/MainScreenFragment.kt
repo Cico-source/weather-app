@@ -32,11 +32,20 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 		listenToEvents()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+	
 		
 		binding.btnChangeCity.setOnClickListener {
 			
 			findNavController().navigate(R.id.action_mainScreenFragment_to_searchScreenFragment)
 		}
+		
+		binding.btnRefresh.setOnClickListener {
+			
+			binding.loadingSpinner.isVisible = true
+			binding.btnRefresh.isVisible = false
+			viewModel.getWeatherDetailsForCity("City of Zagreb")
+		}
+		
 		
 	}
 	
@@ -48,6 +57,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 				is MainSearchScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
 					binding.loadingSpinner.isVisible = false
+					binding.btnRefresh.isVisible = true
 					snackbar(event.error)
 				}
 				else                                                                    ->
