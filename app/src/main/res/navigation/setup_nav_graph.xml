@@ -25,10 +25,18 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_searchScreenFragment"
             app:destination="@id/searchScreenFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_forecastScreenFragment"
+            app:destination="@id/forecastScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchScreenFragment"
         android:name="com.example.weatherapp.ui.fragments.SearchScreenFragment"
         android:label="fragment_search_screen"
         tools:layout="@layout/fragment_search_screen" />
+    <fragment
+        android:id="@+id/forecastScreenFragment"
+        android:name="com.example.weatherapp.ui.fragments.ForecastScreenFragment"
+        android:label="fragment_forecast_screen"
+        tools:layout="@layout/fragment_forecast_screen" />
 </navigation>
