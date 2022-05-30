@@ -5,11 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherapp.data.remote.models.Days7
+import com.example.weatherapp.data.remote.models.Daily
 import com.example.weatherapp.databinding.SingleItemBinding
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -18,10 +16,10 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 	
 	inner class ViewHolder(val binding: SingleItemBinding) : RecyclerView.ViewHolder(binding.root)
 	
-	var days7 = listOf<Days7>()
+	var days7 = listOf<Daily>()
 		private set
 	
-	suspend fun updateDataset(newDataset: List<Days7>) = withContext(Dispatchers.Default) {
+	suspend fun updateDataset(newDataset: List<Daily>) = withContext(Dispatchers.Default) {
 		val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback()
 		{
 			override fun getOldListSize(): Int
@@ -63,9 +61,9 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 		with(holder) {
 			with(days7[position]) {
 				
-				binding.tvLangName.text = this.name
-				binding.tvDescription.text = this.description
-				binding.expandedView.visibility = View.GONE
+//				binding.tvLangName.text = this.name
+//				binding.tvDescription.text = this.description
+//				binding.expandedView.visibility = View.GONE
 				
 				binding.cardLayout.setOnClickListener {
 					

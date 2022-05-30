@@ -1,14 +1,19 @@
 package com.example.weatherapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapters.Days7RecyclerViewAdapter
-import com.example.weatherapp.data.remote.models.Days7
+import com.example.weatherapp.data.remote.models.Daily
 import com.example.weatherapp.databinding.FragmentForecastScreen7DaysBinding
+import com.example.weatherapp.ui.viewmodels.ForecastScreenViewModel
+import com.example.weatherapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -22,13 +27,12 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 	private val binding: FragmentForecastScreen7DaysBinding
 		get() = _binding!!
 	
-	private var dummyList = ArrayList<Days7>()
-	
 	@Inject
 	lateinit var days7Adapter: Days7RecyclerViewAdapter
 	
 	private var updateDays7Job: Job? = null
 	
+	private val viewModel: ForecastScreenViewModel by viewModels()
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
@@ -38,47 +42,65 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 		binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
 		binding.rvList.adapter = days7Adapter
 		
-		val language1 = Days7(
-			"Java",
-			"Java is an Object Oriented Programming language." +
-					" Java is used in all kind of applications like Mobile Applications (Android is Java based), " +
-					"desktop applications, web applications, client server applications, enterprise applications and many more. ",
-			false
-		)
-		val language2 = Days7(
-			"Kotlin",
-			"Kotlin is a statically typed, general-purpose programming language" +
-					" developed by JetBrains, that has built world-class IDEs like IntelliJ IDEA, PhpStorm, Appcode, etc.",
-			false
-		)
-		val language3 = Days7(
-			"Python",
-			"Python is a high-level, general-purpose and a very popular programming language." +
-					" Python programming language (latest Python 3) is being used in web development, Machine Learning applications, " +
-					"along with all cutting edge technology in Software Industry.",
-			false
-		)
-		val language4 = Days7(
-			"CPP",
-			"C++ is a general purpose programming language and widely used now a days for " +
-					"competitive programming. It has imperative, object-oriented and generic programming features. ",
-			false
-		)
+		listenToEvents()
+		subscribeToObservers()
 		
-		dummyList.add(language1)
-		dummyList.add(language2)
-		dummyList.add(language3)
-		dummyList.add(language4)
-		
-		updateDays7RecyclerView(dummyList)
+		viewModel.getWeatherDetailsForCity("City of Zagreb")
 	}
 	
-	private fun updateDays7RecyclerView(players: List<Days7>)
+	private fun updateDays7RecyclerView(days7: List<Daily>)
 	{
 		updateDays7Job?.cancel()
 		updateDays7Job = lifecycleScope.launch {
 			
-			days7Adapter.updateDataset(players)
+			days7Adapter.updateDataset(days7)
+		}
+	}
+	
+	private fun listenToEvents() = lifecycleScope.launchWhenStarted {
+
+		viewModel.setupEvent.collect { event ->
+			when (event)
+			{
+				is ForecastScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
+				{
+					binding.loadingSpinner.isVisible = false
+					snackbar(event.error)
+				}
+				else                                                                    ->
+				{
+					Unit
+				}
+			}
+		}
+	}
+
+	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
+		viewModel.screen.collect { event ->
+			when (event)
+			{
+				is ForecastScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
+				{
+					event.weatherDetails.run {
+					
+						daily.forEach{
+							Log.i("FFF", it.toString())
+						}
+//						updateDays7RecyclerView(daily)
+					}
+
+					binding.loadingSpinner.isVisible = false
+				}
+				is ForecastScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
+				{
+					binding.loadingSpinner.isVisible = true
+				}
+
+				else                                                               ->
+				{
+					Unit
+				}
+			}
 		}
 	}
 	
