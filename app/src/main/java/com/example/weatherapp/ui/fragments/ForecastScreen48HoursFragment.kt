@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentForecastScreen48HoursBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen48_hours)
 {
 	

@@ -3,12 +3,18 @@ package com.example.weatherapp.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.adapters.Days7Adapter
+import com.example.weatherapp.adapters.Days7RecyclerViewAdapter
 import com.example.weatherapp.data.remote.models.Days7
 import com.example.weatherapp.databinding.FragmentForecastScreen7DaysBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_days)
 {
 	
@@ -16,8 +22,13 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 	private val binding: FragmentForecastScreen7DaysBinding
 		get() = _binding!!
 	
-	private var languageList = ArrayList<Days7>()
-	private lateinit var rvAdapter: Days7Adapter
+	private var dummyList = ArrayList<Days7>()
+	
+	@Inject
+	lateinit var days7Adapter: Days7RecyclerViewAdapter
+	
+	private var updateDays7Job: Job? = null
+	
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
@@ -25,9 +36,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 		_binding = FragmentForecastScreen7DaysBinding.bind(view)
 		
 		binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
-		
-		rvAdapter = Days7Adapter(languageList)
-		binding.rvList.adapter = rvAdapter
+		binding.rvList.adapter = days7Adapter
 		
 		val language1 = Days7(
 			"Java",
@@ -56,13 +65,21 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 			false
 		)
 		
-		// add items to list
-		languageList.add(language1)
-		languageList.add(language2)
-		languageList.add(language3)
-		languageList.add(language4)
+		dummyList.add(language1)
+		dummyList.add(language2)
+		dummyList.add(language3)
+		dummyList.add(language4)
 		
-		rvAdapter.notifyDataSetChanged()
+		updateDays7RecyclerView(dummyList)
+	}
+	
+	private fun updateDays7RecyclerView(players: List<Days7>)
+	{
+		updateDays7Job?.cancel()
+		updateDays7Job = lifecycleScope.launch {
+			
+			days7Adapter.updateDataset(players)
+		}
 	}
 	
 	override fun onDestroy()
