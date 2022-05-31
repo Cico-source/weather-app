@@ -39,13 +39,17 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 			findNavController().navigate(R.id.action_mainScreenFragment_to_searchScreenFragment)
 		}
 		
+		binding.btnForecast.setOnClickListener {
+			
+			findNavController().navigate(R.id.action_mainScreenFragment_to_forecastScreenFragment)
+		}
+		
 		binding.btnRefresh.setOnClickListener {
 			
 			binding.loadingSpinner.isVisible = true
 			binding.btnRefresh.isVisible = false
 			viewModel.getWeatherDetailsForCity("City of Zagreb")
 		}
-		
 		
 	}
 	

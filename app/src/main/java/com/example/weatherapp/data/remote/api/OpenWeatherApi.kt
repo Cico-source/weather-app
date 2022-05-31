@@ -22,4 +22,5 @@ interface OpenWeatherApi
 		@Query("units") units: String = "metric"
 	
 	): Response<WeatherDetailsResponse>
+	
 }
