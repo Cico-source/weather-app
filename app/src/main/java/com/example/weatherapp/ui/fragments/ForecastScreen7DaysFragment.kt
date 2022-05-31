@@ -82,10 +82,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 				is ForecastScreenViewModel.SetupEvent.GetCityWeatherDetailsEvent ->
 				{
 					event.weatherDetails.run {
-					
-						daily.forEach{
-							Log.i("FFF", it.toString())
-						}
+						
 						updateDays7RecyclerView(daily)
 					}
 

@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    app:contentPadding="5dp"
     app:strokeColor="#676665"
-    app:strokeWidth="2dp"
-    app:contentPadding="5dp">
+    app:strokeWidth="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_view"
@@ -22,7 +22,7 @@
             layout when user clicks on any of the item-->
 
         <TextView
-            android:id="@+id/dayOfWeek"
+            android:id="@+id/hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -31,7 +31,7 @@
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="MON" />
+            tools:text="13:00" />
 
         <TextView
             android:id="@+id/date"
@@ -41,44 +41,20 @@
             android:padding="5dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dayOfWeek"
+            app:layout_constraintTop_toBottomOf="@+id/hour"
             tools:text="30.05" />
 
         <TextView
-            android:id="@+id/maxValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/kosaCrta"
-            app:layout_constraintEnd_toStartOf="@+id/kosaCrta"
-            app:layout_constraintTop_toTopOf="@+id/kosaCrta"
-            tools:text="20°C" />
-
-        <TextView
-            android:id="@+id/minValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:textColor="@android:color/holo_blue_light"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/kosaCrta"
-            app:layout_constraintStart_toEndOf="@+id/kosaCrta"
-            app:layout_constraintTop_toTopOf="@+id/kosaCrta"
-            tools:text="13°C" />
-
-        <TextView
-            android:id="@+id/kosaCrta"
+            android:id="@+id/tempValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="/"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/expanded_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="23°C" />
 
         <TextView
             android:id="@+id/rainPercent"
@@ -96,8 +72,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/rainPercent"
             app:layout_constraintEnd_toStartOf="@+id/imageView4"
-            app:layout_constraintStart_toEndOf="@+id/minValue"
-            app:layout_constraintTop_toTopOf="@+id/minValue"
+            app:layout_constraintStart_toEndOf="@+id/tempValue"
             app:srcCompat="@drawable/rain_percent" />
 
         <ImageView
@@ -105,8 +80,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintBottom_toTopOf="@+id/expanded_view"
-            app:layout_constraintEnd_toStartOf="@+id/maxValue"
-            app:layout_constraintStart_toEndOf="@+id/dayOfWeek"
+            app:layout_constraintEnd_toStartOf="@+id/tempValue"
+            app:layout_constraintStart_toEndOf="@+id/hour"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -143,106 +118,11 @@
                 tools:text="Moderate rain." />
 
             <TextView
-                android:id="@+id/morning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Morning\n(°C)"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/wind"
-                app:layout_constraintStart_toStartOf="@+id/wind"
-                app:layout_constraintTop_toBottomOf="@+id/windValue" />
-
-            <TextView
-                android:id="@+id/afternoon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Afternoon\n(°C)"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/sunrise"
-                app:layout_constraintStart_toStartOf="@+id/sunrise"
-                app:layout_constraintTop_toTopOf="@+id/morning" />
-
-            <TextView
-                android:id="@+id/evening"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="Evening\n(°C)"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/night"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/afternoon"
-                app:layout_constraintStart_toStartOf="@+id/sunset"
-                app:layout_constraintTop_toTopOf="@+id/morning" />
-
-            <TextView
-                android:id="@+id/night"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Night\n(°C)"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/evening"
-                app:layout_constraintTop_toTopOf="@+id/morning" />
-
-            <TextView
-                android:id="@+id/morningValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/windValue"
-                app:layout_constraintStart_toStartOf="@+id/windValue"
-                app:layout_constraintTop_toBottomOf="@+id/morning"
-                tools:text="15" />
-
-            <TextView
-                android:id="@+id/afternoonValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/sunriseValue"
-                app:layout_constraintStart_toStartOf="@+id/sunriseValue"
-                app:layout_constraintTop_toTopOf="@+id/morningValue"
-                tools:text="15" />
-
-            <TextView
-                android:id="@+id/eveningValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/evening"
-                app:layout_constraintStart_toStartOf="@+id/evening"
-                app:layout_constraintTop_toTopOf="@+id/morningValue"
-                tools:text="15" />
-
-            <TextView
-                android:id="@+id/nightValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/night"
-                app:layout_constraintStart_toStartOf="@+id/night"
-                app:layout_constraintTop_toTopOf="@+id/morningValue"
-                tools:text="15" />
-
-            <TextView
-                android:id="@+id/rain"
+                android:id="@+id/clouds"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="RAIN\n(mm)"
+                android:text="CLOUDS\n(%)"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -264,8 +144,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/pressure"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/rain"
-                app:layout_constraintTop_toTopOf="@+id/rain"
+                app:layout_constraintStart_toEndOf="@+id/clouds"
+                app:layout_constraintTop_toTopOf="@+id/clouds"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintWidth_percent=".33" />
 
@@ -280,19 +160,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/humidity"
-                app:layout_constraintTop_toTopOf="@+id/rain"
+                app:layout_constraintTop_toTopOf="@+id/clouds"
                 app:layout_constraintWidth_default="percent"
                 app:layout_constraintWidth_percent=".33" />
 
             <TextView
-                android:id="@+id/rainValue"
+                android:id="@+id/cloudsValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/rain"
-                app:layout_constraintStart_toStartOf="@+id/rain"
-                app:layout_constraintTop_toBottomOf="@+id/rain"
+                app:layout_constraintEnd_toEndOf="@+id/clouds"
+                app:layout_constraintStart_toStartOf="@+id/clouds"
+                app:layout_constraintTop_toBottomOf="@+id/clouds"
                 tools:text="7.97" />
 
             <TextView
@@ -302,7 +182,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/humidity"
                 app:layout_constraintStart_toStartOf="@+id/humidity"
-                app:layout_constraintTop_toTopOf="@+id/rainValue"
+                app:layout_constraintTop_toTopOf="@+id/cloudsValue"
                 tools:text="91" />
 
             <TextView
@@ -312,7 +192,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/pressure"
                 app:layout_constraintStart_toStartOf="@+id/pressure"
-                app:layout_constraintTop_toTopOf="@+id/rainValue"
+                app:layout_constraintTop_toTopOf="@+id/cloudsValue"
                 tools:text="1014" />
 
             <TextView
@@ -324,15 +204,15 @@
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/rain"
-                app:layout_constraintStart_toStartOf="@+id/rain"
-                app:layout_constraintTop_toBottomOf="@+id/rainValue" />
+                app:layout_constraintEnd_toEndOf="@+id/clouds"
+                app:layout_constraintStart_toStartOf="@+id/clouds"
+                app:layout_constraintTop_toBottomOf="@+id/cloudsValue" />
 
             <TextView
-                android:id="@+id/sunrise"
+                android:id="@+id/visibility"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="SUNRISE"
+                android:text="VISIBILITY\n(km)"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -341,10 +221,10 @@
                 app:layout_constraintTop_toTopOf="@+id/wind" />
 
             <TextView
-                android:id="@+id/sunset"
+                android:id="@+id/uv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="SUNSET"
+                android:text="UV\n(index)"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -358,30 +238,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/rainValue"
-                app:layout_constraintStart_toStartOf="@+id/rainValue"
+                app:layout_constraintEnd_toEndOf="@+id/cloudsValue"
+                app:layout_constraintStart_toStartOf="@+id/cloudsValue"
                 app:layout_constraintTop_toBottomOf="@+id/wind"
                 tools:text="1.6" />
 
             <TextView
-                android:id="@+id/sunriseValue"
+                android:id="@+id/visibilityValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/humidityValue"
                 app:layout_constraintStart_toStartOf="@+id/humidityValue"
                 app:layout_constraintTop_toTopOf="@+id/windValue"
-                tools:text="05:11am" />
+                tools:text="10" />
 
             <TextView
-                android:id="@+id/sunsetValue"
+                android:id="@+id/uvValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/pressureValue"
                 app:layout_constraintStart_toStartOf="@+id/pressureValue"
                 app:layout_constraintTop_toTopOf="@+id/windValue"
-                tools:text="08:36pm" />
+                tools:text="5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

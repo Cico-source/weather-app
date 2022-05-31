@@ -16,14 +16,6 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-fun main()
-{
-	val isoFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
-	isoFormat.timeZone = TimeZone.getTimeZone("GMT")
-	
-	println(isoFormat.format(Date(1653966631*1000L)))
-	println(isoFormat.format(Date(1654022239*1000L)))
-}
 
 class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7RecyclerViewAdapter.ViewHolder>()
 {
