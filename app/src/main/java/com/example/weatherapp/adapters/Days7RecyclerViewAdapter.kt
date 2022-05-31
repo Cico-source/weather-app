@@ -126,13 +126,13 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 				binding.eveningValue.text = this.temp.eve.roundToInt().toString()
 				binding.nightValue.text = this.temp.night.roundToInt().toString()
 				
-//				binding.expandedView.visibility = View.GONE
+				binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
 				
 				binding.cardLayout.setOnClickListener {
 					
 					this.expand = !this.expand
-					binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
 					
+					notifyItemChanged(position)
 				}
 				
 			}

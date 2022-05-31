@@ -101,15 +101,16 @@ class Hours48RecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<Ho
 				binding.pressureValue.text = this.pressure.toString()
 				
 				binding.windValue.text = this.windSpeed.toString()
-				binding.visibilityValue.text = this.visibility.toString()
+				binding.visibilityValue.text = (this.visibility / 1000).toString()
 				binding.uvValue.text = this.uv.toString()
 				
+				binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
 				
-				binding.cardLayout.setOnClickListener {
+				itemView.setOnClickListener {
 					
 					this.expand = !this.expand
-					binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
 					
+					notifyItemChanged(position)
 				}
 				
 			}
