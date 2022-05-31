@@ -4,6 +4,8 @@ package com.example.weatherapp.data.remote.models
 import com.google.gson.annotations.SerializedName
 
 data class Temp(
+    @SerializedName("day")
+    val afternoon: Double,
     @SerializedName("min")
     val min: Double,
     @SerializedName("max")

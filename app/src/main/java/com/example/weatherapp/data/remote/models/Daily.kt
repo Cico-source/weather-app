@@ -10,8 +10,6 @@ data class Daily(
     val sunset: Int,
     @SerializedName("temp")
     val temp: Temp,
-    @SerializedName("feels_like")
-    val feelsLike: FeelsLike,
     @SerializedName("pressure")
     val pressure: Int,
     @SerializedName("humidity")

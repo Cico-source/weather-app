@@ -86,7 +86,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 						daily.forEach{
 							Log.i("FFF", it.toString())
 						}
-//						updateDays7RecyclerView(daily)
+						updateDays7RecyclerView(daily)
 					}
 
 					binding.loadingSpinner.isVisible = false
