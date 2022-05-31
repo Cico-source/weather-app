@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:contentPadding="10dp">
+    app:contentPadding="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,6 +23,7 @@
             android:id="@+id/dayOfWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -34,9 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
+            android:padding="5dp"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/dayOfWeek"
-            app:layout_constraintStart_toStartOf="@+id/dayOfWeek"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dayOfWeek"
             tools:text="30.05" />
 
@@ -116,9 +118,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expanded_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:paddingRight="20dp"
             android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -130,10 +133,10 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:scrollHorizontally="false"
+                android:gravity="center"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/humidity"
+                app:layout_constraintStart_toStartOf="@+id/humidity"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Moderate rain." />
 
@@ -142,8 +145,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Morning"
-                android:textSize="16sp"
+                android:text="Morning\n(°C)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/wind"
                 app:layout_constraintStart_toStartOf="@+id/wind"
@@ -153,8 +157,9 @@
                 android:id="@+id/afternoon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Afternoon"
-                android:textSize="16sp"
+                android:text="Afternoon\n(°C)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/sunrise"
                 app:layout_constraintStart_toStartOf="@+id/sunrise"
@@ -165,21 +170,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:text="Evening"
-                android:textSize="16sp"
+                android:text="Evening\n(°C)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/night"
-                app:layout_constraintStart_toStartOf="@+id/pressure"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/afternoon"
+                app:layout_constraintStart_toStartOf="@+id/sunset"
                 app:layout_constraintTop_toTopOf="@+id/morning" />
 
             <TextView
                 android:id="@+id/night"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Night"
-                android:textSize="16sp"
+                android:text="Night\n(°C)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/sunset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/evening"
                 app:layout_constraintTop_toTopOf="@+id/morning" />
 
             <TextView
@@ -187,121 +198,129 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="15°C"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/windValue"
                 app:layout_constraintStart_toStartOf="@+id/windValue"
-                app:layout_constraintTop_toBottomOf="@+id/morning" />
+                app:layout_constraintTop_toBottomOf="@+id/morning"
+                tools:text="15" />
 
             <TextView
                 android:id="@+id/afternoonValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="15°C"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/sunriseValue"
                 app:layout_constraintStart_toStartOf="@+id/sunriseValue"
-                app:layout_constraintTop_toTopOf="@+id/morningValue" />
+                app:layout_constraintTop_toTopOf="@+id/morningValue"
+                tools:text="15" />
 
             <TextView
                 android:id="@+id/eveningValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="15°C"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/evening"
                 app:layout_constraintStart_toStartOf="@+id/evening"
-                app:layout_constraintTop_toTopOf="@+id/morningValue" />
+                app:layout_constraintTop_toTopOf="@+id/morningValue"
+                tools:text="15" />
 
             <TextView
                 android:id="@+id/nightValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="1dp"
-                tools:text="15°C"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/night"
                 app:layout_constraintStart_toStartOf="@+id/night"
-                app:layout_constraintTop_toTopOf="@+id/morningValue" />
+                app:layout_constraintTop_toTopOf="@+id/morningValue"
+                tools:text="15" />
 
             <TextView
                 android:id="@+id/rain"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="50dp"
-                android:text="RAIN mm"
-                android:textSize="16sp"
+                android:text="RAIN\n(mm)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/humidity"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
+                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent=".33" />
 
             <TextView
                 android:id="@+id/humidity"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="51dp"
-                android:text="HUMIDITY %"
-                android:textSize="16sp"
+                android:text="HUMIDITY\n(%)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/pressure"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/rain"
-                app:layout_constraintTop_toTopOf="@+id/rain" />
+                app:layout_constraintTop_toTopOf="@+id/rain"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent=".33" />
 
             <TextView
                 android:id="@+id/pressure"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="PRESSURE hPa"
-                android:textSize="16sp"
+                android:text="PRESSURE\n(hPa)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/humidity"
-                app:layout_constraintTop_toTopOf="@+id/rain" />
+                app:layout_constraintTop_toTopOf="@+id/rain"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent=".33" />
 
             <TextView
                 android:id="@+id/rainValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="7.97"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/rain"
                 app:layout_constraintStart_toStartOf="@+id/rain"
-                app:layout_constraintTop_toBottomOf="@+id/rain" />
+                app:layout_constraintTop_toBottomOf="@+id/rain"
+                tools:text="7.97" />
 
             <TextView
                 android:id="@+id/humidityValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="91"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/humidity"
                 app:layout_constraintStart_toStartOf="@+id/humidity"
-                app:layout_constraintTop_toTopOf="@+id/rainValue" />
+                app:layout_constraintTop_toTopOf="@+id/rainValue"
+                tools:text="91" />
 
             <TextView
                 android:id="@+id/pressureValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="1014"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/pressure"
                 app:layout_constraintStart_toStartOf="@+id/pressure"
-                app:layout_constraintTop_toTopOf="@+id/rainValue" />
+                app:layout_constraintTop_toTopOf="@+id/rainValue"
+                tools:text="1014" />
 
             <TextView
                 android:id="@+id/wind"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="WIND m/s"
-                android:textSize="16sp"
+                android:text="WIND\n(m/s)"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/rain"
                 app:layout_constraintStart_toStartOf="@+id/rain"
@@ -309,10 +328,11 @@
 
             <TextView
                 android:id="@+id/sunrise"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="SUNRISE UTC"
-                android:textSize="16sp"
+                android:text="SUNRISE"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/humidity"
                 app:layout_constraintStart_toStartOf="@+id/humidity"
@@ -320,45 +340,46 @@
 
             <TextView
                 android:id="@+id/sunset"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="SUNSET UTC"
-                android:textSize="16sp"
+                android:text="SUNSET"
+                android:textAlignment="center"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/pressure"
                 app:layout_constraintStart_toStartOf="@+id/pressure"
-                app:layout_constraintTop_toTopOf="@+id/sunrise" />
+                app:layout_constraintTop_toTopOf="@+id/wind" />
 
             <TextView
                 android:id="@+id/windValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="1.6"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/rainValue"
                 app:layout_constraintStart_toStartOf="@+id/rainValue"
-                app:layout_constraintTop_toBottomOf="@+id/wind" />
+                app:layout_constraintTop_toBottomOf="@+id/wind"
+                tools:text="1.6" />
 
             <TextView
                 android:id="@+id/sunriseValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="05:11am"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/humidityValue"
                 app:layout_constraintStart_toStartOf="@+id/humidityValue"
-                app:layout_constraintTop_toTopOf="@+id/windValue" />
+                app:layout_constraintTop_toTopOf="@+id/windValue"
+                tools:text="05:11am" />
 
             <TextView
                 android:id="@+id/sunsetValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="08:36pm"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/pressureValue"
                 app:layout_constraintStart_toStartOf="@+id/pressureValue"
-                app:layout_constraintTop_toTopOf="@+id/windValue" />
+                app:layout_constraintTop_toTopOf="@+id/windValue"
+                tools:text="08:36pm" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

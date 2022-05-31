@@ -34,7 +34,7 @@ object Constants
 		"Oslo" to "NO",
 		"Paris" to "FR",
 		"Podgorica" to "ME",
-		"Prague" to "CY",
+		"Prague" to "CZ",
 		"Reykjavik" to "IS",
 		"Riga" to "LV",
 		"Rome" to "IT",

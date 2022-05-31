@@ -19,4 +19,9 @@
     <string name="min_value">%1$.0f%2$s</string>
     <string name="max_value">%1$.0f%2$s</string>
 
+    <string name="min_max_forecast_value">%1$d°C</string>
+    <string name="rain_percent_forecast_value">%1$.0f%2$s</string>
+
+
+
 </resources>
