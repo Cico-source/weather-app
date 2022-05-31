@@ -106,7 +106,7 @@ class Hours48RecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<Ho
 				
 				binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
 				
-				itemView.setOnClickListener {
+				binding.cardLayout.setOnClickListener {
 					
 					this.expand = !this.expand
 					

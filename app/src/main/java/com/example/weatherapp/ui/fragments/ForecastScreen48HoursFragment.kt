@@ -48,6 +48,13 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 		subscribeToObservers()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+		
+		binding.btnRefresh.setOnClickListener {
+			
+			binding.loadingSpinner.isVisible = true
+			binding.btnRefresh.isVisible = false
+			viewModel.getWeatherDetailsForCity("City of Zagreb")
+		}
 	}
 	
 	private fun updateHours48RecyclerView(days7: List<Hourly>)
@@ -67,6 +74,7 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 				is ForecastScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
 					binding.loadingSpinner.isVisible = false
+					binding.btnRefresh.isVisible = true
 					snackbar(event.error)
 				}
 				else                                                                  ->

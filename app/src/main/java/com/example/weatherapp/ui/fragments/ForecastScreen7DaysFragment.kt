@@ -46,6 +46,14 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 		subscribeToObservers()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+		
+		binding.btnRefresh.setOnClickListener {
+			
+			binding.loadingSpinner.isVisible = true
+			binding.btnRefresh.isVisible = false
+			viewModel.getWeatherDetailsForCity("City of Zagreb")
+		}
+		
 	}
 	
 	private fun updateDays7RecyclerView(days7: List<Daily>)
@@ -65,6 +73,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 				is ForecastScreenViewModel.SetupEvent.GetCityWeatherDetailsErrorEvent ->
 				{
 					binding.loadingSpinner.isVisible = false
+					binding.btnRefresh.isVisible = true
 					snackbar(event.error)
 				}
 				else                                                                    ->
