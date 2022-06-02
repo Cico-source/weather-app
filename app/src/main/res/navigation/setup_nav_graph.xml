@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.weatherapp.ui.fragments.SplashScreenFragment"
+        android:name="com.example.weatherapp.feature_openweather.presentation.fragments.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.weatherapp.ui.fragments.MainScreenFragment"
+        android:name="com.example.weatherapp.feature_openweather.presentation.fragments.MainScreenFragment"
         android:label="fragment_main_screen"
         tools:layout="@layout/fragment_main_screen" >
         <action
@@ -31,12 +31,12 @@
     </fragment>
     <fragment
         android:id="@+id/searchScreenFragment"
-        android:name="com.example.weatherapp.ui.fragments.SearchScreenFragment"
+        android:name="com.example.weatherapp.feature_openweather.presentation.fragments.SearchScreenFragment"
         android:label="fragment_search_screen"
         tools:layout="@layout/fragment_search_screen" />
     <fragment
         android:id="@+id/forecastScreenFragment"
-        android:name="com.example.weatherapp.ui.fragments.ForecastScreenFragment"
+        android:name="com.example.weatherapp.feature_openweather.presentation.fragments.ForecastScreenFragment"
         android:label="fragment_forecast_screen"
         tools:layout="@layout/fragment_forecast_screen" />
 </navigation>
