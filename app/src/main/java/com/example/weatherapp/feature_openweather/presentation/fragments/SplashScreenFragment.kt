@@ -23,6 +23,7 @@ class SplashScreenFragment : Fragment()
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
 		lifecycleScope.launch {
+			
 			delay(1500)
 			findNavController().navigate(R.id.action_splashScreenFragment_to_mainScreenFragment)
 		}

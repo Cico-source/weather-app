@@ -73,9 +73,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 				}
 			}
 		}
+		
 	}
 	
 	private fun subscribeToObservers() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+		
 		viewModel.screen.collect { event ->
 			when (event)
 			{
@@ -108,6 +110,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 				}
 			}
 		}
+		
 	}
 	
 	override fun onDestroy()

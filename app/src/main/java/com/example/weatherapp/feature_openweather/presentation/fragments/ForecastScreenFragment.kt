@@ -20,8 +20,6 @@ class ForecastScreenFragment : Fragment(R.layout.fragment_forecast_screen)
 	
 	lateinit var adapter: ForecastPagerAdapter
 	
-	private val viewModel: ForecastScreen7DaysViewModel by viewModels()
-	
 	
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 	{
@@ -32,9 +30,6 @@ class ForecastScreenFragment : Fragment(R.layout.fragment_forecast_screen)
 		
 		setViewPager()
 		connectTabLayoutAndViewPager()
-		
-		
-		
 	}
 	
 	private fun setToolbar()

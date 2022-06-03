@@ -53,6 +53,7 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 			binding.btnRefresh.isVisible = false
 			viewModel.getWeatherDetailsForCity("City of Zagreb")
 		}
+		
 	}
 	
 	private fun updateHours48RecyclerView(days7: List<Hourly>)
@@ -62,6 +63,7 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 			
 			hours48Adapter.updateDataset(days7)
 		}
+		
 	}
 	
 	private fun listenToEvents() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -75,15 +77,17 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 					binding.btnRefresh.isVisible = true
 					snackbar(event.error)
 				}
-				else                                                                       ->
+				else                                                                         ->
 				{
 					Unit
 				}
 			}
 		}
+		
 	}
 	
-	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
+	private fun subscribeToObservers() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+		
 		viewModel.screen.collect { event ->
 			when (event)
 			{
@@ -101,12 +105,13 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 					binding.loadingSpinner.isVisible = true
 				}
 				
-				else                                                             ->
+				else                                                                    ->
 				{
 					Unit
 				}
 			}
 		}
+		
 	}
 	
 	override fun onDestroy()

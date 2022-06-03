@@ -8,6 +8,8 @@ import com.example.weatherapp.feature_openweather.domain.repository.OpenWeatherR
 import com.example.weatherapp.common.util.Constants
 import com.example.weatherapp.common.util.DispatcherProvider
 import com.example.weatherapp.common.util.Resource
+import com.example.weatherapp.feature_openweather.domain.use_case.GetCityCoordinates
+import com.example.weatherapp.feature_openweather.domain.use_case.GetWeatherDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForecastScreen48HoursViewModel @Inject constructor(
-	private val repository: OpenWeatherRepository,
+	private val getCityCoordinates: GetCityCoordinates,
+	private val getWeatherDetails: GetWeatherDetails,
 	private val dispatchers: DispatcherProvider,
 	private val dao: WeatherDetailsDao
 ) : ViewModel()
@@ -46,7 +49,7 @@ class ForecastScreen48HoursViewModel @Inject constructor(
 		
 		viewModelScope.launch(dispatchers.main) {
 			
-			val cityCoords = repository.getCoordinatesForCity(city, Constants.CACHE_DURATION_MINUTES)
+			val cityCoords = getCityCoordinates(city, Constants.CACHE_DURATION_MINUTES)
 			
 			val (lat, lon) = if (cityCoords is Resource.Success)
 			{
@@ -66,7 +69,7 @@ class ForecastScreen48HoursViewModel @Inject constructor(
 				return@launch
 			}
 			
-			val cityWeatherDetails = repository.getWeatherDetailsByCityCoords(lat.toString(), lon.toString())
+			val cityWeatherDetails = getWeatherDetails(lat.toString(), lon.toString())
 			
 			if (cityWeatherDetails is Resource.Success)
 			{

@@ -63,6 +63,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 			
 			days7Adapter.updateDataset(days7)
 		}
+		
 	}
 	
 	private fun listenToEvents() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -82,9 +83,11 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 				}
 			}
 		}
+		
 	}
 
-	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
+	private fun subscribeToObservers() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+		
 		viewModel.screen.collect { event ->
 			when (event)
 			{
@@ -108,6 +111,7 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 				}
 			}
 		}
+		
 	}
 	
 	override fun onDestroy()

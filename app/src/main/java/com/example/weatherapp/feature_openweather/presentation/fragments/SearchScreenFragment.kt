@@ -92,13 +92,12 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 				dialog.dismiss()
 				
 				viewModel.getWeatherDetailsForCity(selectedCity)
-				
 			}
 		}
 
 	}
 
-	private fun listenToEvents() = lifecycleScope.launchWhenStarted {
+	private fun listenToEvents() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
 		viewModel.setupEvent.collect { event ->
 			when (event)
@@ -114,9 +113,11 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 				}
 			}
 		}
+		
 	}
 
-	private fun subscribeToObservers() = lifecycleScope.launchWhenStarted {
+	private fun subscribeToObservers() = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+		
 		viewModel.screen.collect { event ->
 			when (event)
 			{
@@ -148,6 +149,7 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 				}
 			}
 		}
+		
 	}
 
 	override fun onDestroy()
