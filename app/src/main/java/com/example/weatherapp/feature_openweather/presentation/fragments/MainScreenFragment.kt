@@ -95,7 +95,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen)
 					}
 					
 					binding.loadingSpinner.isVisible = false
-					binding.card.isVisible = true
+					binding.cards.isVisible = true
 					binding.btnForecast.isVisible = true
 					binding.btnChangeCity.isVisible = true
 				}
