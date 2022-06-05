@@ -125,7 +125,7 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 				{
 					event.weatherDetails.run {
 						binding.apply {
-							cityTextView.text = event.city
+							
 							humidityTextView.text = getString(R.string.humidity_value, dailyDto[0].humidity, "%")
 							cloudsTextView.text = getString(R.string.clouds_value, dailyDto[0].clouds, "%")
 							tempTextView.text = getString(R.string.temp_value, currentDto.temp, "°C")
@@ -135,11 +135,11 @@ class SearchScreenFragment : Fragment(R.layout.fragment_search_screen)
 					}
 
 					binding.loadingSpinner.isVisible = false
-					binding.card.isVisible = true
+					binding.cards.isVisible = true
 				}
 				is SearchScreenViewModel.SetupEvent.MainScreenLoadingEvent     ->
 				{
-					binding.card.isVisible = false
+					binding.cards.visibility = View.INVISIBLE
 					binding.loadingSpinner.isVisible = true
 				}
 
