@@ -8,11 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.feature_openweather.presentation.adapters.Hours48RecyclerViewAdapter
+import com.example.weatherapp.common.util.SmoothScrolling
+import com.example.weatherapp.common.util.snackbar
 import com.example.weatherapp.databinding.FragmentForecastScreen48HoursBinding
 import com.example.weatherapp.feature_openweather.domain.model.Hourly
+import com.example.weatherapp.feature_openweather.presentation.adapters.Hours48RecyclerViewAdapter
 import com.example.weatherapp.feature_openweather.presentation.viewmodels.ForecastScreen48HoursViewModel
-import com.example.weatherapp.common.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -39,13 +40,18 @@ class ForecastScreen48HoursFragment : Fragment(R.layout.fragment_forecast_screen
 		super.onViewCreated(view, savedInstanceState)
 		_binding = FragmentForecastScreen48HoursBinding.bind(view)
 		
-		binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+		binding.rvList.layoutManager = SmoothScrolling(requireActivity(), LinearLayoutManager.VERTICAL)
 		binding.rvList.adapter = hours48Adapter
 		
 		listenToEvents()
 		subscribeToObservers()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+		
+		hours48Adapter.setOnItemClickListener { position: Int ->
+			
+			binding.rvList.smoothScrollToPosition(position)
+		}
 		
 		binding.btnRefresh.setOnClickListener {
 			

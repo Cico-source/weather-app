@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Forecast - City of Zagreb"
-                android:textColor="#F8A00A"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
         </LinearLayout>
@@ -38,10 +38,9 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:tabGravity="fill"
         app:tabIconTint="@color/tab_selection_color"
-        app:tabIndicatorColor="#F8A00A"
+        app:tabIndicatorColor="#7FFFD4"
         app:tabMode="fixed"
-        app:tabTextColor="@color/tab_selection_color"
-        />
+        app:tabTextColor="@color/tab_selection_color" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

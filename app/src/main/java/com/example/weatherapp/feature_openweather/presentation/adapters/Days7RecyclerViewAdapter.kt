@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.SingleItemBinding
+import com.example.weatherapp.databinding.Days7ItemBinding
 import com.example.weatherapp.feature_openweather.domain.model.Daily
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,11 +20,18 @@ import kotlin.math.roundToInt
 class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7RecyclerViewAdapter.ViewHolder>()
 {
 	
-	inner class ViewHolder(val binding: SingleItemBinding) : RecyclerView.ViewHolder(binding.root)
+	inner class ViewHolder(val binding: Days7ItemBinding) : RecyclerView.ViewHolder(binding.root)
 	
 	var days7 = listOf<Daily>()
 		private set
 	
+	private var onItemClickListener: ((Int) -> Unit)? = null
+	
+	
+	fun setOnItemClickListener(listener: (Int) -> Unit)
+	{
+		onItemClickListener = listener
+	}
 	
 	suspend fun updateDataset(newDataset: List<Daily>) = withContext(Dispatchers.Default) {
 		val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback()
@@ -60,7 +67,7 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 	
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Days7RecyclerViewAdapter.ViewHolder
 	{
-		return ViewHolder(SingleItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+		return ViewHolder(Days7ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 	}
 	
 	override fun onBindViewHolder(holder: Days7RecyclerViewAdapter.ViewHolder, position: Int)
@@ -133,6 +140,14 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 					this.expand = !this.expand
 					
 					notifyItemChanged(position)
+					
+					if (expand)
+					{
+						onItemClickListener?.let { click ->
+							
+							click(position)
+						}
+					}
 				}
 				
 			}

@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.common.util.SmoothScrolling
 import com.example.weatherapp.feature_openweather.presentation.adapters.Days7RecyclerViewAdapter
 import com.example.weatherapp.databinding.FragmentForecastScreen7DaysBinding
 import com.example.weatherapp.feature_openweather.domain.model.Daily
@@ -39,13 +40,18 @@ class ForecastScreen7DaysFragment : Fragment(R.layout.fragment_forecast_screen7_
 		super.onViewCreated(view, savedInstanceState)
 		_binding = FragmentForecastScreen7DaysBinding.bind(view)
 		
-		binding.rvList.layoutManager = LinearLayoutManager(requireActivity())
+		binding.rvList.layoutManager = SmoothScrolling(requireActivity(), LinearLayoutManager.VERTICAL)
 		binding.rvList.adapter = days7Adapter
 		
 		listenToEvents()
 		subscribeToObservers()
 		
 		viewModel.getWeatherDetailsForCity("City of Zagreb")
+		
+		days7Adapter.setOnItemClickListener { position: Int ->
+			
+			binding.rvList.smoothScrollToPosition(position)
+		}
 		
 		binding.btnRefresh.setOnClickListener {
 			

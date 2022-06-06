@@ -13,13 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!--Text view for showing the language name-->
-
-        <!--This is the layout "expanded_view" we will
-            hide initially and show as expanded
-            layout when user clicks on any of the item-->
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/dayOfWeek"
@@ -72,7 +67,7 @@
             android:id="@+id/kosaCrta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="50dp"
             android:text="/"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/expanded_view"
@@ -100,14 +95,22 @@
             app:layout_constraintTop_toTopOf="@+id/minValue"
             app:srcCompat="@drawable/rain_percent" />
 
-        <ImageView
-            android:id="@+id/forecastImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/expanded_view"
             app:layout_constraintEnd_toStartOf="@+id/maxValue"
             app:layout_constraintStart_toEndOf="@+id/dayOfWeek"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/forecastImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#CFCECE" />
+
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/imageView4"
@@ -116,7 +119,7 @@
             app:layout_constraintBottom_toTopOf="@+id/expanded_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/spinner_arrow" />
+            app:srcCompat="@drawable/spinner_arrow_black" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expanded_view"

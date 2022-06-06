@@ -25,6 +25,13 @@ class Hours48RecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<Ho
 	var hours48 = listOf<Hourly>()
 		private set
 	
+	private var onItemClickListener: ((Int) -> Unit)? = null
+	
+	fun setOnItemClickListener(listener: (Int) -> Unit)
+	{
+		onItemClickListener = listener
+	}
+
 	
 	suspend fun updateDataset(newDataset: List<Hourly>) = withContext(Dispatchers.Default) {
 		val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback()
@@ -111,6 +118,14 @@ class Hours48RecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<Ho
 					this.expand = !this.expand
 					
 					notifyItemChanged(position)
+					
+					if (expand)
+					{
+						onItemClickListener?.let { click ->
+							
+							click(position)
+						}
+					}
 				}
 				
 			}

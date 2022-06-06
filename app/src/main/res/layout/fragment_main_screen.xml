@@ -270,7 +270,7 @@
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F4EAD1"
+        android:backgroundTint="#FFFFFF"
         android:text="Refresh"
         android:textColor="#34515E"
         android:textSize="20dp"
