@@ -21,6 +21,26 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 {
 	
 	inner class ViewHolder(val binding: Days7ItemBinding) : RecyclerView.ViewHolder(binding.root)
+	{
+		init
+		{
+			binding.cardLayout.setOnClickListener {
+				
+				days7[adapterPosition].expand = !days7[adapterPosition].expand
+				
+				notifyItemChanged(adapterPosition)
+				
+				if (days7[adapterPosition].expand)
+				{
+					onItemClickListener?.let { click ->
+						
+						click(adapterPosition)
+					}
+				}
+			}
+		}
+		
+	}
 	
 	var days7 = listOf<Daily>()
 		private set
@@ -134,24 +154,9 @@ class Days7RecyclerViewAdapter @Inject constructor(): RecyclerView.Adapter<Days7
 				binding.nightValue.text = this.tempDto.night.roundToInt().toString()
 				
 				binding.expandedView.visibility = if (this.expand) View.VISIBLE else View.GONE
-				
-				binding.cardLayout.setOnClickListener {
-					
-					this.expand = !this.expand
-					
-					notifyItemChanged(position)
-					
-					if (expand)
-					{
-						onItemClickListener?.let { click ->
-							
-							click(position)
-						}
-					}
-				}
-				
 			}
 		}
+		
 	}
 	
 	override fun getItemCount(): Int
